@@ -36,6 +36,18 @@ const PaginaPrincipal = ({ navigation }) => {
 				</Pressable>
 				<Pressable
 					style={styles.botao}
+					onPress={() => navigation.navigate("adicionarJogador")}
+				>
+					<Text style={styles.textoBotao}>Adicionar Jogador</Text>
+				</Pressable>
+					<Pressable
+					style={styles.botao}
+					onPress={() => navigation.navigate("listarJogadores")}
+				>
+					<Text style={styles.textoBotao}>Listar Jogadores</Text>
+				</Pressable>
+				<Pressable
+					style={styles.botao}
 					onPress={() => navigation.navigate("cadastro")}
 				>
 					<Text style={styles.textoBotao}>Cadastro Ususário</Text>

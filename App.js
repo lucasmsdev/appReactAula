@@ -10,7 +10,6 @@ import UploadFoto from "./screens/uploadFoto";
 import ListarImagens from "./screens/listarImagens";
 import UploadVideo from "./screens/uploadVideo";
 import app from "./firebaseConfig";
-import ListarVideo from "./screens/listarVideo";
 import ListarCategoria from "./screens/listarCategoria";
 import SobreNos from "./screens/sobreNos";
 import Cadastro from "./screens/cadastro";
