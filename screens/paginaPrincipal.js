@@ -8,17 +8,37 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import bgImage from "../assets/estadio.jpg";
+import { getAuth, signOut } from "firebase/auth"; // Importe as funções do Firebase Auth
+import { firebase } from '../firebaseConfig.js'
 
 const PaginaPrincipal = ({ navigation }) => {
-	const sair = async () => {
-		try {
-			// Limpa todo o cache e dados do AsyncStorage
-			await AsyncStorage.clear();
-			// Redireciona para a tela de login
-			navigation.navigate("realizarLogin");
-		} catch (error) {
-			alert("Erro", "Não foi possível fazer logout.");
-		}
+		const sair = async () => {
+		    try {
+		        const auth = getAuth();
+		        
+		        // 1. Faz logout do Firebase
+		        await signOut(auth);
+		        
+		        // 2. Limpa o AsyncStorage de forma segura
+		        try {
+		            // Método mais seguro para limpar storage
+		            const allKeys = await AsyncStorage.getAllKeys();
+		            await AsyncStorage.multiRemove(allKeys);
+		        } catch (storageError) {
+		            console.warn("Erro ao limpar storage (pode ser ignorado):", storageError);
+		        }
+		        
+		        // 3. Redireciona usando reset para limpar a pilha de navegação
+		        navigation.reset({
+		            index: 0,
+		            routes: [{ name: "realizarLogin" }]
+		        });
+		        
+		    } catch (error) {
+		        console.error("Erro completo no logout:", error);
+		        // Mostra mensagem mais informativa
+		        Alert.alert("Erro", "Ocorreu um problema ao sair. Por favor, tente novamente.");
+		    }
 	};
 	return (
 		<ImageBackground
@@ -42,9 +62,9 @@ const PaginaPrincipal = ({ navigation }) => {
 				</Pressable>
 					<Pressable
 					style={styles.botao}
-					onPress={() => navigation.navigate("listarJogadores")}
+					onPress={() => navigation.navigate("ListarJogadores")}
 				>
-					<Text style={styles.textoBotao}>Listar Jogadores</Text>
+					<Text style={styles.textoBotao}>Listar</Text>
 				</Pressable>
 				<Pressable
 					style={styles.botao}
